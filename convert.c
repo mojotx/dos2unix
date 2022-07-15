@@ -8,6 +8,7 @@
 #include <limits.h>
 #include <unistd.h>
 #include <string.h>
+#include <sys/stat.h>
 #include <errno.h>
 #include "convert.h"
 
@@ -41,6 +42,8 @@ int convert_file(const char *fn) {
     int in, out;  // input and output file descriptors
     char *tmpfn;
     char c;
+    struct stat statBuf;
+
 
     // Open input file
     if ((in = open(fn, O_RDONLY | O_SHLOCK)) == -1) {
@@ -55,8 +58,15 @@ int convert_file(const char *fn) {
         return 1;
     }
 
+    // get perms from original file
+    if (fstat(in, &statBuf)) {
+        fprintf(stderr, "could not stat input fd %d: %s\n", in, strerror(errno));
+        close(in);
+        return 1;
+    }
+
     // open temp output file descriptor
-    if ((out = open(tmpfn, O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_EXLOCK )) == -1) {
+    if ((out = open(tmpfn, (O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_EXLOCK), (S_IRUSR|S_IWUSR)) == -1) {
         fprintf(stderr, "Cannot open temp file %s: %s\n", tmpfn, strerror(errno));
         close(in);
         return 1;
@@ -82,6 +92,12 @@ int convert_file(const char *fn) {
     // Rename temp file to original
     if (rename(tmpfn, fn)) {
         fprintf(stderr, "Could not rename %s => %s: %s\n", tmpfn, fn, strerror(errno));
+        return 1;
+    }
+
+    // Restore old file permission
+    if (chmod(fn, statBuf.st_mode)) {
+        fprintf(stderr, "could not restore old file permissions %o to %s: %s\n", statBuf.st_mode, fn, strerror(errno));
         return 1;
     }
 
