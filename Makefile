@@ -15,7 +15,7 @@ TARGET=dos2unix
 all: $(TARGET)
 
 %.o : %.c
-	$(CC) -c $(CFLAGS) $^ -o $@
+	$(CC) -c $(CFLAGS) $< -o $@
 
 $(TARGET): $(OBJS)
 	$(CC) $(CFLAGS) -o $@ $^

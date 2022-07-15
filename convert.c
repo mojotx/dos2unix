@@ -40,7 +40,7 @@ int convert_file(const char *fn) {
 
     int in, out;  // input and output file descriptors
     char *tmpfn;
-    int c;
+    char c;
 
     // Open input file
     if ((in = open(fn, O_RDONLY | O_SHLOCK)) == -1) {
@@ -71,8 +71,9 @@ int convert_file(const char *fn) {
     close(in);
     close(out);
 
+    fprintf(stderr, "   fn = %s\ntmpfn = %s\n", fn, tmpfn);
     // Rename temp file to original
-    if (!rename(tmpfn, fn)) {
+    if (rename(tmpfn, fn)==-1) {
         fprintf(stderr, "Could not rename %s => %s: %s\n", tmpfn, fn, strerror(errno));
         return 1;
     }
