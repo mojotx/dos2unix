@@ -26,4 +26,8 @@ I wrote this for my own use. It should work well on macOS and Linux, but I did n
 to anticipate all use cases, or add all features. I wrote this in C for performance reasons, 
 and I am aware that there are other solutions, like the original
 [dos2unix](https://waterlan.home.xs4all.nl/dos2unix.html) version, as well as alternative
-solutions, like using `tr -d \015 < DOS-file > UNIX-file`, or `sed 's/^M$//' filename`. 
+solutions, like using `tr -d \015 < DOS-file > UNIX-file`, or `sed 's/^M$//' filename`.
+
+## License 
+
+Licensed under the open source [MIT License](https://opensource.org/licenses/MIT).
