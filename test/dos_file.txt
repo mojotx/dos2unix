@@ -1,0 +1,9 @@
+Hello, this is a MS-DOS text
+file with CRLF line endings.
+
+The hex dump output should
+show 0d0a at the end of each
+line for CRLF, or just 0a
+for the UNIX LF convention.
+
+This is for testing.
