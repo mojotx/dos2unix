@@ -66,11 +66,12 @@ int convert_file(const char *fn) {
     }
 
     // open temp output file descriptor
-    if ((out = open(tmpfn, (O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_EXLOCK), (S_IRUSR|S_IWUSR)) == -1)) {
+    if ((out = open(tmpfn, (O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_EXLOCK), (S_IRUSR|S_IWUSR))) <= 0) {
         fprintf(stderr, "Cannot open temp file %s: %s\n", tmpfn, strerror(errno));
         close(in);
         return 1;
     }
+    fprintf(stderr, "DEBUG: in fd=%d out fd=%d \n", in, out);
 
     // Read from in, write to out, only if char is not a ^M
     while ((read(in, &c, sizeof(c))) == 1) {
