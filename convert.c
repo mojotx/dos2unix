@@ -71,7 +71,6 @@ int convert_file(const char *fn) {
         close(in);
         return 1;
     }
-    fprintf(stderr, "DEBUG: in fd=%d out fd=%d \n", in, out);
 
     // Read from in, write to out, only if char is not a ^M
     while ((read(in, &c, sizeof(c))) == 1) {
