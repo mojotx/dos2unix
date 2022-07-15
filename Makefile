@@ -28,4 +28,7 @@ dist-clean: clean
 
 deps: $(DEPS)
 
+test: all
+	@test/run-test.sh
+
 -include $(DEPS)
