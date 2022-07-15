@@ -68,11 +68,19 @@ int convert_file(const char *fn) {
             write(out, &c, sizeof(c));
     }
 
+    if (!errno) {
+        fprintf(stderr, "Read or write error: %s\n", strerror(errno));
+        close(in);
+        close(out);
+        return 1;
+    }
+
+    // Close file descriptors
     close(in);
     close(out);
 
     // Rename temp file to original
-    if (rename(tmpfn, fn)==-1) {
+    if (rename(tmpfn, fn)) {
         fprintf(stderr, "Could not rename %s => %s: %s\n", tmpfn, fn, strerror(errno));
         return 1;
     }
