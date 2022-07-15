@@ -71,7 +71,6 @@ int convert_file(const char *fn) {
     close(in);
     close(out);
 
-    fprintf(stderr, "   fn = %s\ntmpfn = %s\n", fn, tmpfn);
     // Rename temp file to original
     if (rename(tmpfn, fn)==-1) {
         fprintf(stderr, "Could not rename %s => %s: %s\n", tmpfn, fn, strerror(errno));
