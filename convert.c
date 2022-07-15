@@ -66,7 +66,7 @@ int convert_file(const char *fn) {
     }
 
     // open temp output file descriptor
-    if ((out = open(tmpfn, (O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_EXLOCK), (S_IRUSR|S_IWUSR)) == -1) {
+    if ((out = open(tmpfn, (O_WRONLY | O_CREAT | O_TRUNC | O_EXCL | O_EXLOCK), (S_IRUSR|S_IWUSR)) == -1)) {
         fprintf(stderr, "Cannot open temp file %s: %s\n", tmpfn, strerror(errno));
         close(in);
         return 1;
